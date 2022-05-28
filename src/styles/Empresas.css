@@ -1,0 +1,20 @@
+.container-empresas{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-empresas{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-empresas input{
+    font-size: 1.2rem;
+    padding: .3rem;
+}

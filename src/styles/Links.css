@@ -1,0 +1,26 @@
+.navbar{
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #333;
+}
+
+.link-item{
+    display: inline-block;
+    margin: 1rem;
+    padding: .5rem;
+    border: 2px solid #fff;
+    border-radius: .3rem;
+    transition: all .4s ease-in-out;
+}
+
+.link-item a{
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.link-item:hover{
+    background: #000;
+}
