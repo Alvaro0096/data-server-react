@@ -1,43 +1,68 @@
-import React, {useState} from 'react';
-import Axios from 'axios';
+import React from 'react';
 import '../styles/Tokens.css';
 
-const Tokens = () => {
-  const url = 'http://localapps.servegame.com/registerandlogin/register.controller.php';
-  const [data, setData] = useState({
-    mail: ''
-  });
+class Tokens extends React.Component {
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
 
-  const handleSubmit = (e) => {
+  handleChange = (e) => {
+    this.setState({[e.target.name]: e.target.value})
+  }
+  
+  handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post(url, {
-      mail: data.mail
-    })
-    .then(response => {
-      response.setHeader("Access-Control-Allow-Origin", "*");
-      response.setHeader("Access-Control-Allow-Credentials", "true");
-      response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-      response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-      console.log(response.data);
-    })
+    // console.log(this.state)
+    const data = new FormData();
+        data.append('username', this.state.username);
+        data.append('password', this.state.password);
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST','http://localapps.servegame.com/registerandlogin/register.controller.php', true);
+
+    xhr.onload = (response) => {
+        console.log(JSON.parse(response.currentTarget.response))
+    }
+    xhr.send(data);
   }
 
-  const handleValue = (e) => {
-    const newData = {...data};
-    newData[e.target.id] = e.target.value;
-    setData(newData);
-    // console.log(newData);
-  }
+  render() {
+    const {username, password} = this.state;
+    return (
+      <div className='container-tokens'>
+        <h2 className='title-tokens'>Ingrese su correo para obtener token</h2>
+          <form onSubmit={this.handleSubmit} className='form-tokens'>
+            <input 
+            name='username'
+            type='text' 
+            placeholder='Name' 
+            autoComplete='off'
+            value={username} 
+            onChange={this.handleChange}
+            required/>
 
-  return (
-    <div className='container-tokens'>
-      <h2 className='title-tokens'>Ingrese su correo para obtener token</h2>
-      <form onSubmit={(e) => handleSubmit(e)} id='formTokens' className='form-tokens'>
-        <input onChange={(e) => handleValue(e)} value={data.mail} id='mail' type='email' placeholder='Email' autoComplete='off' required/>
-        <input type="submit" value='Registrar'/>
+            <input 
+            name='password'
+            type='password' 
+            placeholder='Password' 
+            autoComplete='off'
+            value={password} 
+            onChange={this.handleChange}
+            required/>
+            
+            <input 
+            type="submit" 
+            value='Registrar'/>
       </form>
     </div>
-  )
+    )
+  }
 }
 
 export default Tokens
